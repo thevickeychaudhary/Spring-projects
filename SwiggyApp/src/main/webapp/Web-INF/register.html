@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Swiggy User Registration</title>
+</head>
+<body>
+    <h2>Swiggy User Registration</h2>
+    <form id="registerForm">
+        <input type="text" placeholder="First Name" name="firstName" required><br><br>
+        <input type="text" placeholder="Last Name" name="lastName" required><br><br>
+        <input type="email" placeholder="Email" name="email" required><br><br>
+        <input type="password" placeholder="Password" name="password" required><br><br>
+        <input type="text" placeholder="Contact ID" name="contactId"><br><br>
+        <button type="submit">Register</button>
+    </form>
+
+    <div id="responseMessage"></div>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            const response = await fetch("http://localhost:8080/swiggy/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            document.getElementById("responseMessage").innerText = result.message;
+        });
+    </script>
+</body>
+</html>
